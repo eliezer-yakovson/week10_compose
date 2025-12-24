@@ -43,10 +43,10 @@ class DataInteractor:
         cursor.execute(query)
         return cursor.fetchall()
 
-    def update_contact(self, id, first_name, last_name, phone_number):
+    def update_contact(self, id, contact_data):
         query = "UPDATE contacts SET first_name = %s, last_name = %s, phone_number = %s WHERE id = %s"
         cursor = self.connection.cursor()
-        cursor.execute(query, (first_name, last_name, phone_number, id))
+        cursor.execute(query, (contact_data["first_name"], contact_data["last_name"], contact_data["phone_number"], id))
         self.connection.commit()
         return cursor.rowcount > 0
 
@@ -54,6 +54,15 @@ class DataInteractor:
         query = "DELETE FROM contacts WHERE id = %s"
         cursor = self.connection.cursor()
         cursor.execute(query, (id,))
+        self.connection.commit()
+        return cursor.rowcount > 0
+    
+    def update_contact_person_by_field_selection(self, id, field_name, new_value):
+        if field_name not in ["first_name", "last_name", "phone_number"]:
+            raise ValueError("Invalid field name")
+        query = f"UPDATE contacts SET {field_name} = %s WHERE id = %s"
+        cursor = self.connection.cursor()
+        cursor.execute(query, (new_value, id))
         self.connection.commit()
         return cursor.rowcount > 0
 

@@ -7,6 +7,7 @@ REST API for managing contacts using FastAPI with CRUD operations and manual SQL
 - **GET /contacts** - Get all contacts
 - **POST /contacts** - Create new contact
 - **PUT /contacts/{id}** - Update contact
+- **PUT /contacts/{id}/field** - Update specific field of a contact
 - **DELETE /contacts/{id}** - Delete contact
 
 ## Setup
@@ -45,6 +46,11 @@ curl.exe -X PUT http://localhost:8000/contacts/1 -H "Content-Type: application/j
 **DELETE contact:**
 ```bash
 curl.exe -X DELETE http://localhost:8000/contacts/1
+```
+
+**PUT update specific field of a contact:**
+```bash
+curl.exe -X PUT "http://localhost:8000/contacts/5/field?field_name=first_name&new_value=UpdatedName"
 ```
 
 **Interactive docs:** http://localhost:8000/docs
