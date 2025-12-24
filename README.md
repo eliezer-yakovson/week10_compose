@@ -1,5 +1,8 @@
 # Contacts Management API
-
+## my name 
+eliezer yakovson
+negev 
+id: 206568107
 ## Description
 REST API for managing contacts using FastAPI with CRUD operations and manual SQL queries. Containerized with Docker and Docker Compose.
 
