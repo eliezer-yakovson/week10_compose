@@ -4,7 +4,7 @@ import mysql.connector
 from mysql.connector import Error
 
 from dotenv import load_dotenv
-load_dotenv(".env.local")
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 
@@ -13,18 +13,15 @@ class DataInteractor:
         self.connection = self.create_connection()
 
     def create_connection(self):
+        port_value = os.getenv("DB_PORT", "3306")
         try:
             connection = mysql.connector.connect(
-                host="db",          # שם השירות מה-docker-compose
-                user="root",        # משתמש ברירת המחדל
-                password="1234",    # הסיסמה שהוגדרה ב-.env.docker
-                database="contacts_db"     # השם שהוגדר ב-.env.docker
-                )
-                # host=os.getenv("DB_HOST"),
-                # user=os.getenv("DB_USER"),
-                # password=os.getenv("DB_PASSWORD"),
-                # database=os.getenv("DB_NAME"),
-                # port=int(os.getenv("DB_PORT"))
+                host=os.getenv("DB_HOST"),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("MYSQL_ROOT_PASSWORD"),
+                database=os.getenv("MYSQL_DATABASE"),
+                port=int(port_value)
+            )
             return connection
 
         except Error as e:

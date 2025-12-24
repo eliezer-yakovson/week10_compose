@@ -2,18 +2,21 @@ services:
   db:
     image: mysql:8.0
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uuser", "-ppassword" ]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p1234" ]
       interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 10s 
     env_file:
-      - .env.docker
+      - .env
     volumes:
       - db_data:/var/lib/mysql
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
     build: ./app
+    env_file:
+      - .env
     ports:
       - "8000:80"
     depends_on:
