@@ -1,9 +1,12 @@
+import os
 import logging
 import mysql.connector
 from mysql.connector import Error
 
-logging.basicConfig(level=logging.INFO)
+from dotenv import load_dotenv
+load_dotenv(".env.local")
 
+logging.basicConfig(level=logging.INFO)
 
 class DataInteractor:
     def __init__(self):
@@ -12,17 +15,20 @@ class DataInteractor:
     def create_connection(self):
         try:
             connection = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="1234",
-                database="contacts_db"
+                host=os.getenv("DB_HOST"),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("DB_PASSWORD"),
+                database=os.getenv("DB_NAME"),
+                port=int(os.getenv("DB_PORT"))
             )
             return connection
+
         except Error as e:
             print(f"Error: {e}")
             logging.info("Failed to connect to the database.")
             return None
-        
+
+            
     def create_contact(self, first_name, last_name, phone_number):
        query = "INSERT INTO contacts (first_name, last_name, phone_number) VALUES (%s, %s, %s)"
        cursor = self.connection.cursor()
