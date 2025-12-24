@@ -15,12 +15,16 @@ class DataInteractor:
     def create_connection(self):
         try:
             connection = mysql.connector.connect(
-                host=os.getenv("DB_HOST"),
-                user=os.getenv("DB_USER"),
-                password=os.getenv("DB_PASSWORD"),
-                database=os.getenv("DB_NAME"),
-                port=int(os.getenv("DB_PORT"))
-            )
+                host="db",          # שם השירות מה-docker-compose
+                user="root",        # משתמש ברירת המחדל
+                password="1234",    # הסיסמה שהוגדרה ב-.env.docker
+                database="contacts_db"     # השם שהוגדר ב-.env.docker
+                )
+                # host=os.getenv("DB_HOST"),
+                # user=os.getenv("DB_USER"),
+                # password=os.getenv("DB_PASSWORD"),
+                # database=os.getenv("DB_NAME"),
+                # port=int(os.getenv("DB_PORT"))
             return connection
 
         except Error as e:
